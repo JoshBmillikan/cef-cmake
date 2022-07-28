@@ -10,7 +10,7 @@ if(NOT CEF_CMAKE_INCLUDED)
 endif()
 
 if(NOT CEF_VERSION)
-    set(CEF_VERSION 75.1.4+g4210896+chromium-75.0.3770.100)
+    set(CEF_VERSION 103.0.12+g8eb56c7+chromium-103.0.5060.134)
     message(STATUS "CEF-CMake: CEF_VERSION not specified. Defaulting to ${CEF_VERSION}")
 endif()
 
@@ -85,6 +85,8 @@ target_include_directories(cefdll_wrapper
     INTERFACE include
 )
 
+file(GLOB RESOURCES ${CMAKE_CURRENT_SOURCE_DIR}/${cefName}/Resources/*.pak ${CMAKE_CURRENT_SOURCE_DIR}/${cefName}/Resources/*.dat)
+
 add_custom_command(TARGET cefdll_wrapper POST_BUILD
     COMMENT "cefdll_wrapper: Copying CEF resources"
     COMMAND ${CMAKE_COMMAND} -E
@@ -93,12 +95,7 @@ add_custom_command(TARGET cefdll_wrapper POST_BUILD
         ${CMAKE_CURRENT_SOURCE_DIR}/${cefName}/Resources/locales
         ${CEF_CMAKE_OUTPUT_DIR}/locales
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
-        ${CMAKE_CURRENT_SOURCE_DIR}/${cefName}/Resources/cef.pak
-        ${CMAKE_CURRENT_SOURCE_DIR}/${cefName}/Resources/cef_100_percent.pak
-        ${CMAKE_CURRENT_SOURCE_DIR}/${cefName}/Resources/cef_200_percent.pak
-        ${CMAKE_CURRENT_SOURCE_DIR}/${cefName}/Resources/cef_extensions.pak
-        ${CMAKE_CURRENT_SOURCE_DIR}/${cefName}/Resources/devtools_resources.pak
-        ${CMAKE_CURRENT_SOURCE_DIR}/${cefName}/Resources/icudtl.dat
+        ${RESOURCES}
         ${CEF_CMAKE_OUTPUT_DIR}
 )
 
