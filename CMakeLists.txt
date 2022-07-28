@@ -111,17 +111,14 @@ if(CEF_CMAKE_OS_LINUX)
         COMMENT "cefdll_wrapper: Copying CEF binaries"
         COMMAND ${CMAKE_COMMAND} -E
             make_directory ${CEF_CMAKE_OUTPUT_DIR}
-        COMMAND ${CMAKE_COMMAND} -E copy_directory
-            ${CMAKE_CURRENT_SOURCE_DIR}/${cefName}/$<CONFIG>/swiftshader
-            ${CEF_CMAKE_OUTPUT_DIR}/swiftshader
         COMMAND ${CMAKE_COMMAND} -E copy_if_different
             ${CMAKE_CURRENT_SOURCE_DIR}/${cefName}/$<CONFIG>/chrome-sandbox
             ${CMAKE_CURRENT_SOURCE_DIR}/${cefName}/$<CONFIG>/libcef.so
             ${CMAKE_CURRENT_SOURCE_DIR}/${cefName}/$<CONFIG>/libEGL.so
             ${CMAKE_CURRENT_SOURCE_DIR}/${cefName}/$<CONFIG>/libGLESv2.so
-            ${CMAKE_CURRENT_SOURCE_DIR}/${cefName}/$<CONFIG>/natives_blob.bin
             ${CMAKE_CURRENT_SOURCE_DIR}/${cefName}/$<CONFIG>/snapshot_blob.bin
             ${CMAKE_CURRENT_SOURCE_DIR}/${cefName}/$<CONFIG>/v8_context_snapshot.bin
+            ${CMAKE_CURRENT_SOURCE_DIR}/${cefName}/$<CONFIG>/vk_swiftshader_icd.json
             ${CEF_CMAKE_OUTPUT_DIR}
     )
 
@@ -154,18 +151,15 @@ elseif(CEF_CMAKE_OS_WINDOWS)
         COMMENT "cefdll_wrapper: Copying CEF binaries"
         COMMAND ${CMAKE_COMMAND} -E
             make_directory ${CEF_CMAKE_OUTPUT_DIR}
-        COMMAND ${CMAKE_COMMAND} -E copy_directory
-            ${CMAKE_CURRENT_SOURCE_DIR}/${cefName}/$<CONFIG>/swiftshader
-            ${CEF_CMAKE_OUTPUT_DIR}/swiftshader
         COMMAND ${CMAKE_COMMAND} -E copy_if_different
             ${CMAKE_CURRENT_SOURCE_DIR}/${cefName}/$<CONFIG>/chrome_elf.dll
             ${CMAKE_CURRENT_SOURCE_DIR}/${cefName}/$<CONFIG>/d3dcompiler_47.dll
             ${CMAKE_CURRENT_SOURCE_DIR}/${cefName}/$<CONFIG>/libcef.dll
             ${CMAKE_CURRENT_SOURCE_DIR}/${cefName}/$<CONFIG>/libEGL.dll
             ${CMAKE_CURRENT_SOURCE_DIR}/${cefName}/$<CONFIG>/libGLESv2.dll
-            ${CMAKE_CURRENT_SOURCE_DIR}/${cefName}/$<CONFIG>/natives_blob.bin
             ${CMAKE_CURRENT_SOURCE_DIR}/${cefName}/$<CONFIG>/snapshot_blob.bin
             ${CMAKE_CURRENT_SOURCE_DIR}/${cefName}/$<CONFIG>/v8_context_snapshot.bin
+            ${CMAKE_CURRENT_SOURCE_DIR}/${cefName}/$<CONFIG>/vk_swiftshader_icd.json
             ${CEF_CMAKE_OUTPUT_DIR}
     )
 
@@ -186,7 +180,6 @@ elseif(CEF_CMAKE_OS_WINDOWS)
             optimized ${CMAKE_CURRENT_SOURCE_DIR}/${cefName}/Release/cef_sandbox.lib
         )
     endif()
-
 else()
     # TODO: Copy macos shared libraries
     message(FATAL_ERROR "CEF-CMake: Build platform not supported yet")
